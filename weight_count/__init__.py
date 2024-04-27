@@ -14,6 +14,8 @@ app.debug = setting.DEBUG_MODE
 # 初始化日志
 formatter = logging.Formatter(
     "[%(asctime)s][%(filename)s:%(lineno)d][%(levelname)s] - %(message)s")
+if not os.path.isdir("./log"):
+    os.mkdir("./log")
 handler = TimedRotatingFileHandler(
     "./log/weight_count.log", when="D", interval=1, backupCount=15,
     encoding="UTF-8", delay=False, utc=True)

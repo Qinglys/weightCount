@@ -56,6 +56,28 @@
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
   <legend style="font-size: 16px;">新人入队</legend>
 </fieldset>
+<form class="layui-form layui-form-pane" action="" style="width: 95%;" id="addUser">
+  <div class="layui-form-item">
+    <label class="layui-form-label", style="margin-left: 5%; width: 30%;">昵称</label>
+    <div class="layui-input-block" style="margin-left: 35%;">
+      <input type="text" name="user" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label" style="margin-left: 5%; width: 30%;">体重</label>
+    <div class="layui-input-block" style="margin-left: 35%;">
+      <input type="text" name="weight" lay-verify="required|number" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+
+  <div class="layui-form-item" style="text-align: center;">
+    <div class="layui-input-block" style="margin-left: 5%;" >
+      <button type="submit" class="layui-btn" lay-submit="" lay-filter="addUserSubmit">立即提交</button>
+    </div>
+  </div>
+
+</form>
+
 
 <script src="../static/layui.js"></script>
 <script src="../static/echarts.min.js"></script>
@@ -67,24 +89,18 @@
   form.on('submit(addWeightSubmit)', function(data){
     // console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
     document.activeElement.blur() // 收起移动端软键盘
-    // document.body.scrollTop = document.documentElement.scrollTop = 0; // 回到顶部 避免弹窗遮挡
+    document.body.scrollTop = document.documentElement.scrollTop = 0; // 回到顶部 避免弹窗遮挡
     add_weight_data(data.field)
     return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
   });
-  // // 控制弹窗  初始化的时候赋值给变量
-  // var _msg = {{msg|safe}}
-  // if(_msg.length != 0){
-  //   layui.use('layer', function() { //独立版的layer无需执行这一句
-  //     var $ = layui.jquery,layer = layui.layer;
-  //     function func_msg() {
-  //         layer.alert(_msg, {
-  //             icon: 1,
-  //             skin: 'layer-ext-moon'
-  //         });
-  //     }
-  //     func_msg()
-  //   })
-  // }
+
+  form.on('submit(addUserSubmit)', function(data){
+    // console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+    document.activeElement.blur() // 收起移动端软键盘
+    document.body.scrollTop = document.documentElement.scrollTop = 0; // 回到顶部 避免弹窗遮挡
+    add_user(data.field)
+    return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+  });
   
   var all_data = {{all_data|tojson}}
   var chart_date = all_data['chart_date'] 

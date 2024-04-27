@@ -1,11 +1,10 @@
 from flask import Blueprint, request, current_app, render_template
-# from datetime import datetime
 import datetime
-import json
 from weight_count.src.exts import db
 from weight_count.src.models import User, Weight
 from weight_count.api import common
 from weight_count import setting
+from pytz import timezone
 
 my_app = Blueprint('index', __name__)
 
@@ -25,17 +24,19 @@ def index(msg='\"\"'):
 
 
     # 判断hello_world
-    now_time = datetime.datetime.today().strftime('%H:%M:%S')
+    now_time = datetime.datetime.now(tz=timezone('Asia/Shanghai')).strftime('%H:%M:%S')
     print(now_time)
     if '06:00:00' <= now_time <= '11:00:00':
         hello_world = '早上好！'
     elif '11:00:00' < now_time < "14:00:00":
         hello_world = '中午好！'
-    elif '14:00:00' <= now_time < "24:00:00":
+    elif '14:00:00' <= now_time <= "18:00:00":
+        hello_world = '下午好！'
+    elif '18:00:00' < now_time < "24:00:00":
         hello_world = '晚上好！'
     else:
         hello_world = '还不睡觉？'
-    print(hello_world)
+    # print(hello_world)
     # 构造user_select
     user_select = ''
     users = User.query.order_by(User.id).all()
@@ -65,7 +66,7 @@ def add_user():
         return common.make_error('参数不完整, 或参数格式错误！')
 
     # 数据库username不可重复
-    if User.query.filter_by(username=username):
+    if User.query.filter_by(username=username).first() is not None:
         return common.make_error('用户已存在！')
 
     user = User(username=username)
